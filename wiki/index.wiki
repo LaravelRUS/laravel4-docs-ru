@@ -1,0 +1,32 @@
+== Документация Laravel v4 • ((../v3/ v3)) ==
+
+{{BRIEF docs4}}
+
+== ((#why)) Философия Laravel ==
+{{TOC}}
+
+Laravel - библиотека для построения вёб-приложений с выразительным, элегантным синтаксисом. Мы верим, что процесс разработки должен быть творческим и доставлять вам удовольствие. Laravel стремится устранить общеизвестные проблемы, возникающие при разработке интернет-приложений, облегчая работу с такими часто используемыми возможностями, как авторизация, маршрутизация (//routine//), сессии и кэширование.
+
+Задача Laravel - сделать разработку приятной для самого разработчика, в то же время не ущемляя функциональности его приложения. Счастливые разработчики пишут самый лучший код. Мы постарались совместить всё самое лучшее, что мы видели в других вёб-библиотеках, в том числе на других языках, таких как Ruby on Rails, ASP.Net MVC и Sinatra.
+
+Laravel обладает широкими возможностями, но при этом прост для понимания и содержит инструменты, необходимые для больших и крепких приложений. Замечательный контейнер обратного управления (IoC), выразительная система миграций и тесно связанная система юнит-тестов даёт вам всё, что нужно для решения любой задачи, которая перед вами стоит.
+
+== Изучение Laravel ==
+Один из лучших способов познакомиться с Laravel - прочитать все разделы документации. Это руководство рассматривает все компоненты фреймворка и как использовать их в вашем приложении.
+
+Вы также можете посмотреть ((http://wiki.laravel.io/Books книги по Laravel)) (англ.). Они написаны сообществом и являются хорошими помощниками в изучении Laravel 4.
+
+  * ((https://leanpub.com/codebright Code Bright)) - //Dayle Rees//
+  * ((https://leanpub.com/laravel-testing-decoded Laravel Testing Decoded)) - //Jeffrey Way//
+
+== Команда разработчиков ==
+Laravel был создан ((https://github.com/taylorotwell Taylor Otwell)), который продолжает вести его разработку по сей день. Другие известные члены сообщества: ((https://github.com/daylerees Dayle Rees)), ((https://github.com/ShawnMcCool Shawn McCool)), ((https://github.com/JeffreyWay Jeffrey Way)), ((https://github.com/jasonlewis Jason Lewis)), ((https://github.com/bencorlett Ben Corlett)), ((https://github.com/franzliedke Franz Liedke)), ((https://github.com/driesvints Dries Vints)), ((https://github.com/crynobone Mior Muhammed Zaki)) и ((https://github.com/philsturgeon Phil Sturgeon)).
+
+== Спонсоры Laravel ==
+Следующие организации оказали финансовую поддержку разработке этой библиотеки:
+  * ((http://userscape.com/ UserScape))
+  * ((http://cartalyst.com/ Cartalyst))
+  * ((http://ellidavis.com/ Elli Davis - Toronto Realtor))
+  * ((http://jaybanks.ca/vancouver-lofts-condos Jay Banks - Vancouver Lofts & Condos))
+  * ((http://juliekinnear.com/toronto-mls-listings Julie Kinnear - Toronto MLS))
+  * ((http://jamiesarner.com/ Jamie Sarner - Toronto Real Estate))
