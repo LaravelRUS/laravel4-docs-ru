@@ -133,3 +133,52 @@
 %%
   $mime = Input::file('photo')->getMimeType();
 %%
+
+== Информация о запросе ==
+Класс %%Request%% содержит множество методов для изучения входящего запроса в вашем приложении. Он расширяет класс %%Symfony\Component\HttpFoundation\Request%%. Ниже - несколько полезных примеров.
+
+**Получение URI (пути) запроса:**
+%%
+  $uri = Request::path();
+%%
+
+**Соответствует ли запрос маске пути?**
+%%
+  if (Request::is('admin/*')) {
+    //
+  }
+%%
+
+**Получение URL запроса:**
+%%
+  $url = Request::url();
+%%
+
+**Извлечение сегмента URI (пути):**
+%%
+  $segment = Request::segment(1);
+%%
+
+**Чтение заголовка запроса:**
+%%
+  $value = Request::header('Content-Type');
+%%
+
+**Чтение значения из %%$_SERVER%%:**
+%%
+  $value = Request::server('PATH_INFO');
+%%
+
+**Сделан ли запрос через AJAX?**
+%%
+  if (Request::ajax()) {
+    //
+  }
+%%
+
+**Использует ли запрос ((ВП:HTTPS))?**
+%%
+  if (Request::secure()) {
+    //
+  }
+%%
