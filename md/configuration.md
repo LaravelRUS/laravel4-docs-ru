@@ -1,4 +1,4 @@
-# Configuration
+# Настройка
 
 - [Вступление](#introduction)
 - [Настройки среды](#environment-configuration)
