@@ -1,0 +1,231 @@
+== Контроллеры ==
+{{Meta автор=из официальной документации, переводчик=Proger_XP, id переводчика=2, обновление=19.07.2013}}
+{{Meta оригинал=doc4:controllers}}
+
+{{TOC}}
+
+== Простейшие контроллеры ==
+Вместо того, чтобы определять всю ((routing маршрутизацию)) (//routing//) вашего проекта в файле %%(t)routes.php%% вы можете организовать её, используя класс %%Controller%%. Контроллеры могут группировать связанную логику в отдельные классы, а кроме того использовать дополнительные возможности Laravel, такие как автоматическое ((ioc внедрение зависимостей)).
+
+Контроллеры обычно хранятся в папке %%(t)app/controllers%%, а этот путь по умолчанию зарегистрирован в ((configuration настройке)) **classmap** вашего файла %%(t)composer.json%%.
+
+Вот пример простейшего класса контроллера:
+%%
+  class UserController extends BaseController {
+
+      /**
+       * Отобразить профиль соответствующего пользователя.
+       */
+      public function showProfile($id)
+      {
+          $user = User::find($id);
+
+          return View::make('user.profile', array('user' => $user));
+      }
+
+  }
+%%
+
+Все контроллеры должны наследовать класс %%BaseController%%. Этот класс также может хранится в папке %%(t)app/controllers%% и в него можно поместить общую логику для других контроллеров. %%BaseController%% расширяет стандартный класс Laravel, %%Controller%%.
+
+Теперь, определив контроллер, мы можем зарегистрировать маршрут для его действия (//action//):
+%%
+  Route::get('user/{id}', 'UserController@showProfile');
+%%
+
+Если вы решили организовать ваши контроллеры в пространства имён, просто используйте полное имя класса при определении маршрута:
+%%
+  Route::get('foo', 'Namespace\FooController@method');
+%%
+
+.(tl_note)
+Помните, что имена класса в строках следуют обычным правилам PHP и если ваш класс начинается с **n**, **t** и других букв в нижнем регистре, то обратный слэш перед ними нужно экранировать - иначе они преобразуются в разрыв строки, табуляцию или иной спецсимвол: %%"namespace\new_controller"%% - //прим. пер.//
+
+Вы также можете присвоить имя этому маршруту:
+%%
+  Route::get('foo', array('uses' => 'FooController@method',
+                          'as' => 'name'));
+%%
+
+Вы можете получить URL к //действию// методом %%URL::action()%%:
+%%
+  $url = URL::action('FooController@method');
+%%
+
+Получить имя //действия//, которое выполняется в данном запросе, можно методом %%currentRouteAction()%%:
+%%
+  $action = Route::currentRouteAction();
+%%
+
+== Фильтры для контроллеров ==
+((routing#фильтры Фильтры)) могут указываться для контроллеров аналогично "обычным" маршрутам:
+%%
+  Route::get('profile', array('before' => 'auth',
+             'uses' => 'UserController@showProfile'));
+%%
+
+Однако вы можете указывать их и изнутри самого контроллера:
+%%
+  class UserController extends BaseController {
+
+      /**
+       * Создать экземпляр класса UserController.
+       */
+      public function __construct()
+      {
+          $this->beforeFilter('auth');
+
+          $this->beforeFilter('csrf', array('on' => 'post'));
+
+          $this->afterFilter('log', array('only' =>
+                              array('fooAction', 'barAction')));
+      }
+
+  }
+%%
+
+Можно устанавливать фильтры в виде функции-замыкания:
+%%
+  class UserController extends BaseController {
+
+      /**
+       * Создать экземпляр класса UserController.
+       */
+      public function __construct()
+      {
+          $this->beforeFilter(function () {
+              //
+          });
+      }
+
+  }
+%%
+
+== ((#restful)) RESTful-контроллеры ==
+Laravel позволяет вам легко создавать единый маршрут для обработки всех //действий// контроллера используя простую схему именования ((ВП:REST)). Для начала зарегистрируйте маршрут методом %%Route::controller()%%.
+
+**Регистрация RESTful-контроллера:**
+%%
+  Route::controller('users', 'UserController');
+%%
+
+Метод %%controller()%% принимает два аргумента. Первый - корневой ((ВП:URI)) (путь), который обрабатывает данный контроллер, а второй - имя класса самого контроллера. После регистрации просто добавьте методы в этот класс с префиксом в виде типа HTTP-запроса (//HTTP verb//), который они обрабатывают.
+
+%%
+  class UserController extends BaseController {
+
+      public function getIndex()
+      {
+          // GET-запрос.
+      }
+
+      public function postProfile()
+      {
+          // POST-запрос.
+      }
+
+  }
+%%
+
+Методы **index** обрабатывают корневой URI контроллера - в нашем случае это %%(t)users%%.
+
+Если имя //действия// вашего контроллера состоит из нескольких слов вы можете обратиться к нему по URI, используя синтаксис с дефисами (%%(t)-%%). Например, следующее действие в нашем классе %%UserController%% будет доступно по адресу %%(t)users/admin-profile%%:
+%%
+  public function getAdminProfile() {}
+%%
+
+== Контроллеры ресурсов ==
+Они упрощают построение ((#restful RESTful))-контроллеров, работающих с ресурсами. Например, вы можете создать контроллер, обрабатывающий фотографии, хранимые вашим приложением. Вы можете быстро создать заготовку такого контроллера командой **controller:make** интерфейса ((artisan Artisan)).
+
+Для создания контроллера выполните следующую консольную команду:
+%%(sh)
+  php artisan controller:make PhotoController
+%%
+
+Теперь мы можем зарегистрировать его как контроллер ресурса:
+%%
+  Route::resource('photo', 'PhotoController');
+%%
+
+Этот единственный вызов создаёт множество маршрутов для обработки различный RESTful-действий на ресурсе %%(t)photo%%. Сам сгенерированный контроллер уже имеет методы-заглушки для каждого из этих маршрутов с комментариями, которые напоминают вам о том, какие типы запросов они обрабатывают.
+
+**Запросы, обрабатываемые контроллером ресурсов:**
+%%(rawhtml)
+  <table>
+    <thead>
+      <tr>
+        <th>Тип</th>
+        <th>Путь</th>
+        <th>Действие</th>
+        <th>Имя маршрута</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>GET</td>
+        <td>/resource</td>
+        <td>index</td>
+        <td>resource.index</td>
+      </tr>
+      <tr>
+        <td>GET</td>
+        <td>/resource/create</td>
+        <td>create</td>
+        <td>resource.create</td>
+      </tr>
+      <tr>
+        <td>POST</td>
+        <td>/resource</td>
+        <td>store</td>
+        <td>resource.store</td>
+      </tr>
+      <tr>
+        <td>GET</td>
+        <td>/resource/{id}</td>
+        <td>show</td>
+        <td>resource.show</td>
+      </tr>
+      <tr>
+        <td>GET</td>
+        <td>/resource/{id}/edit</td>
+        <td>edit</td>
+        <td>resource.edit</td>
+      </tr>
+      <tr>
+        <td>PUT/PATCH</td>
+        <td>/resource/{id}</td>
+        <td>update</td>
+        <td>resource.update</td>
+      </tr>
+      <tr>
+        <td>DELETE</td>
+        <td>/resource/{id}</td>
+        <td>destroy</td>
+        <td>resource.destroy</td>
+      </tr>
+    </tbody>
+  </table>
+%%
+
+Иногда вам может быть нужно обрабатывать только часть всех возможных действий:
+%%(sh)
+  php artisan controller:make PhotoController --only=index,show
+
+  php artisan controller:make PhotoController --except=index
+%%
+
+Вы можете указать этот набор и при регистрации ((routing маршрута)):
+%%
+  Route::resource('photo', 'PhotoController',
+                  array('only' => array('index', 'show')));
+%%
+
+== Обработка неопределённых методов ==
+Можно определить "catch-all" метод, который будет вызываться для обработки запроса, когда в контроллере нет соответствующего метода. Он должен называться **missingMethod** и принимать массив параметров запроса в виде единственного своего аргумента.
+
+%%
+  public function missingMethod($parameters)
+  {
+      //
+  }
+%%
