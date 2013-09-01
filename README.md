@@ -1,6 +1,6 @@
 ### Русский перевод документации по Laravel 4
 
-Выполнен дял сайта [Laravel.ru](http://laravel.ru). Распространяется без ограничений (public domain); см. **LICENSE**.
+Выполнен для сайта [Laravel.ru](http://laravel.ru). Распространяется без ограничений (public domain); см. **LICENSE**.
 
 Форматы:
 * **wiki** — [UverseWiki](http://uverse.i-forge.net/) — актуальная версия автора (@[ProgerXP](http://proger.me))
