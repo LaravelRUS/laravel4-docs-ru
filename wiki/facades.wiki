@@ -23,7 +23,7 @@
   $value = Cache::get('key');
 %%
 
-Однако если вы посмотрите в исходный код класса %%Illuminate\Support\Facades\Cache%%, то увидите, что он не содержит метода %%get()%%:
+Однако, если вы посмотрите в исходный код класса %%Illuminate\Support\Facades\Cache%%, то увидите, что он не содержит метода %%get()%%:
 %%
   class Cache extends Facade {
 
