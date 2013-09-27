@@ -18,6 +18,7 @@ Laravel обладает широкими возможностями, но пр�
 
   * ((https://leanpub.com/codebright Code Bright)) - //Dayle Rees//
   * ((https://leanpub.com/laravel-testing-decoded Laravel Testing Decoded)) - //Jeffrey Way//
+  * ((https://leanpub.com/laravel Laravel: From Apprentice To Artisan)) - //Taylor Otwell// (создатель Laravel)
 
 == Команда разработчиков ==
 Laravel был создан ((https://github.com/taylorotwell Taylor Otwell)), который продолжает вести его разработку по сей день. Другие известные члены сообщества: ((https://github.com/daylerees Dayle Rees)), ((https://github.com/ShawnMcCool Shawn McCool)), ((https://github.com/JeffreyWay Jeffrey Way)), ((https://github.com/jasonlewis Jason Lewis)), ((https://github.com/bencorlett Ben Corlett)), ((https://github.com/franzliedke Franz Liedke)), ((https://github.com/driesvints Dries Vints)), ((https://github.com/crynobone Mior Muhammed Zaki)) и ((https://github.com/philsturgeon Phil Sturgeon)).
