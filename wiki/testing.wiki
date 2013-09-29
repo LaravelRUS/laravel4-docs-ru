@@ -1,0 +1,178 @@
+== Юнит-тесты ==
+{{Meta автор=из официальной документации, переводчик=Proger_XP, id переводчика=2, обновление=29.09.2013}}
+{{Meta оригинал=doc4:testing}}
+
+{{TOC}}
+
+== Введение ==
+Laravel построен с учётом тестирования. Фактически, поддержка ((http://phpunit.de PHPUnit)) доступна по умолчанию, а файл %%(t)phpunit.xml%% уже настроен для вашего приложения. В дополнение к PHPUnit Laravel также использует компоненты //Symfony HttpKernel//, //DomCrawler// и //BrowserKit// для проверки и манипулирования ((templates шаблонами)) для симуляции работы браузера.
+
+Папка %%(t)app/tests%% уе содержит файл теста для примера. После установки нового приложения Laravel просто выполните команду **phpunit** для запуска процесса тестирования.
+
+== Определение тестов для выполнения ==
+Для создания теста просто создайте новый файл в папке %%(t)app/tests%%. Класс теста должен наследовать класс %%TestCase%%. Вы можете оббъявлять методы тестов как вы обычно объявляете их для PHPUnit.
+
+**Пример тестового класса:**
+%%
+  class FooTest extends TestCase {
+
+    public function testSomethingIsTrue()
+    {
+      $this->assertTrue(true);
+    }
+  }
+%%
+
+Вы можете запустить все тесты в вашем приложении через командную строку командой **phpunit**.
+
+.(alert)
+**Внимание:** если вы определили собственный метод %%setUp()%%, не забудьте вызвать %%parent::setUp()%%.
+
+== Тестовое окружение ==
+Во время выполнения тестов Laravel автоматически установит текущую ((configuration#сред+а))у в %%(t)testing%%. Кроме этого Laravel подключит настройки тестовой среды для ((session сессии)) и ((caching кэширования)). Оба ти драйвера устанавливаются в %%(t)array%%, что позволяет данным существовать в памяти, пока работают тесты. Вы можете свободно создать любое другое тестовое окружение по необходимости.
+
+== Обращение к маршрутам ==
+**Вызов ((routing маршрута)) из теста:**
+%%
+  $response = $this->call('GET', 'user/profile');
+
+  $response = $this->call($method, $uri, $parameters, $files, $server, $content);
+%%
+
+После этого вы можете обращаться к свойствам объекта %%Illuminate\Http\Response%%:
+%%
+  $this->assertEquals('Hello World', $response->getContent());
+%%
+
+**Вызов ((controllers контроллера)) из теста:**
+%%
+  $response = $this->action('GET', 'HomeController@index');
+
+  $response = $this->action('GET', 'UserController@profile', array('user' => 1));
+%%
+
+Метод %%getContent()%% вернёт содержимое-строку ответа маршрута или контроллера. Если был возвращён ((views %%View%%)), вы можете получить его через свойство %%$original%%:
+
+%%
+  $view = $response->original;
+
+  $this->assertEquals('John', $view['name']);
+%%
+
+Для вызова HTTPS-маршрута можно использовать метод %%callSecure()%%:
+%%
+  $response = $this->callSecure('GET', 'foo/bar');
+%%
+
+.(alert)
+**Внимание:** фильтры маршрутов отключены в тестовой среде. Для их включения добавьте в тест вызов %%Route::enableFilters()%%.
+
+== DomCrawler ==
+Вы можете вызвать ваш ((routing маршрут)) и получить объект %%DomCrawler%%, который может использоваться для проверки содержимого ответа:
+%%
+  $crawler = $this->client->request('GET', '/');
+
+  $this->assertTrue($this->client->getResponse()->isOk());
+
+  $this->assertCount(1, $crawler->filter('h1:contains("Hello World!")'));
+%%
+
+Для более подробной информации о его использовании обратитесь к ((http://symfony.com/doc/master/components/dom_crawler.html официальной документации)).
+
+== Тестирование фасадов ==
+При тестировании вам может потребоваться отловить вызов к одному из статических ((facades классов-фасадов)) Laravel. К примеру, у вас есть такой ((controllers контроллер)):
+%%
+  public function getIndex()
+  {
+    Event::fire('foo', array('name' => 'Дейл'));
+
+    return 'All done!';
+  }
+%%
+
+Вы можете отловить обращение к %%Event%% с помощью метода %%shouldReceive()%% этого фасада, который вернёт объект ((https://github.com/padraic/mockery Mockery)).
+
+**Тестирование фасада %%Event%%:**
+%%
+  public function testGetIndex()
+  {
+    Event::shouldReceive('fire')->once()->with(array('name' => 'Дейл'));
+
+    $this->call('GET', '/');
+  }
+%%
+
+.(alert)
+**Внимание:** не делайте этого для объекта %%Request%%. Вместо этого, передайте желаемый ввод методу %%call()%% во время выполнения вашего теста.
+
+== Проверки (//assertions//) ==
+Laravel предоставляет несколько //assert//-методов, чтобы сделать ваши тесты немного проще.
+
+**Проверка на успешный запрос:**
+%%
+  public function testMethod()
+  {
+    $this->call('GET', '/');
+
+    $this->assertResponseOk();
+  }
+%%
+
+**Проверка статуса ответа:**
+%%
+  $this->assertResponseStatus(403);
+%%
+
+**Проверка переадресации в ответе:**
+%%
+  $this->assertRedirectedTo('foo');
+
+  $this->assertRedirectedToRoute('route.name');
+
+  $this->assertRedirectedToAction('Controller@method');
+%%
+
+**Проверка налиия данных в шаблоне:**
+%%
+  public function testMethod()
+  {
+    $this->call('GET', '/');
+
+    $this->assertViewHas('name');
+    $this->assertViewHas('age', $value);
+  }
+%%
+
+**Проверка налиия данных в сессии:**
+%%
+  public function testMethod()
+  {
+    $this->call('GET', '/');
+
+    $this->assertSessionHas('name');
+    $this->assertSessionHas('age', $value);
+  }
+%%
+
+== Вспомогательные методы ==
+Класс %%TestCase%% содержит несколько вспомогательных метода для упрощения тестирования вашего приложения.
+
+Вы можете установить текущего авторизованного пользователя с помощью метода %%be()%%.
+
+**Установка текущего авторизованного пользователя:**
+%%
+  $user = new User(array('name' => 'John'));
+
+  $this->be($user);
+%%
+
+Вы можете заполнить вашу БД начальными данными изнутри теста методом %%seed()%%.
+
+**Заполнение БД тестовыми данными:**
+%%
+  $this->seed();
+
+  $this->seed($connection);
+%%
+
+Больше информации на тему начальных данных доступно в ((migrations#начальные разделе о миграциях)).

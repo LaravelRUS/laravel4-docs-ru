@@ -1,0 +1,292 @@
+== Конструктор таблиц ==
+{{Meta автор=из официальной документации, переводчик=Proger_XP, id переводчика=2, обновление=29.09.2013}}
+{{Meta оригинал=doc4:schema}}
+
+{{TOC}}
+
+== Введение ==
+В Laravel, класс %%Schema%% представляет собой независимый от БД интерфейс манипулирования таблицами. Он хорошо работает со всеми СУБД, поддерживаемыми Laravel, и предоставляет унифицированный API для любой из этих систем.
+
+== Создание и удаление таблиц ==
+Для создания новой таблицы используется метод %%Schema::create()%%:
+%%
+  Schema::create('users', function ($table) {
+    $table->increments('id');
+  });
+%%
+
+Первый параметр метода %%create()%% - имя таблицы, а второй - замыкание, которое получает объект %%Blueprint%%, использующийся для заполнения новой таблицы.
+
+Чтобы переименовать существующую таблицу используется метод %%rename()%%:
+%%
+  Schema::rename($from, $to);
+%%
+
+Для указания иного использующегося подключения к БД используется метод %%Schema::connection()%%:
+%%
+  Schema::connection('foo')->create('users', function ($table) {
+    $table->increments('id');
+  });
+%%
+
+Для удаления таблицы вы можете использовать метод %%Schema::drop()%%:
+%%
+  Schema::drop('users');
+
+  Schema::dropIfExists('users');
+%%
+
+== Добавление полей ==
+Для обновления существующей таблицы мы будем использовать метод %%Schema::table()%%:
+%%
+  Schema::table('users', function ($table) {
+    $table->string('email');
+  });
+%%
+
+Конструктор таблиц поддерживает различные типы полей, которые вы можете использовать при создании таблиц.
+
+%%(RawHTML)
+  <table>
+    <tr>
+      <th>Команда</th>
+      <th>Описание</th>
+    </tr>
+    <tr>
+      <td><kbd>$table->increments('id');</kbd></td>
+      <td>Первичный последовательный ключ (<em>autoincrement</em>)</td>
+    </tr>
+    <tr>
+      <td><kbd>$table->bigIncrements('id');</kbd></td>
+      <td>Первичный последовательный ключ типа <strong>BIGINT</strong></td>
+    </tr>
+    <tr>
+      <td><kbd>$table->string('email');</kbd></td>
+      <td>Поле <strong>VARCHAR</strong></td>
+    </tr>
+    <tr>
+      <td><kbd>$table->string('name', 100);</kbd></td>
+      <td>Поле <strong>VARCHAR</strong> с указанной длиной</td>
+    </tr>
+    <tr>
+      <td><kbd>$table->integer('votes');</kbd></td>
+      <td>Поле <strong>INTEGER</strong></td>
+    </tr>
+    <tr>
+      <td><kbd>$table->bigInteger('votes');</kbd></td>
+      <td>Поле <strong>BIGINT</strong></td>
+    </tr>
+    <tr>
+      <td><kbd>$table->smallInteger('votes');</kbd></td>
+      <td>Поле <strong>SMALLINT</strong></td>
+    </tr>
+    <tr>
+      <td><kbd>$table->float('amount');</kbd></td>
+      <td>Поле <strong>FLOAT</strong></td>
+    </tr>
+    <tr>
+      <td><kbd>$table->decimal('amount', 5, 2);</kbd></td>
+      <td>Поле <strong>DECIMAL</strong> с указанной размерностью и точностью</td>
+    </tr>
+    <tr>
+      <td><kbd>$table->boolean('confirmed');</kbd></td>
+      <td>Поле <strong>BOOLEAN</strong></td>
+    </tr>
+    <tr>
+      <td><kbd>$table->date('created_at');</kbd></td>
+      <td>Поле <strong>DATE</strong></td>
+    </tr>
+    <tr>
+      <td><kbd>$table->dateTime('created_at');</kbd></td>
+      <td>Поле <strong>DATETIME</strong></td>
+    </tr>
+    <tr>
+      <td><kbd>$table->time('sunrise');</kbd></td>
+      <td>Поле <strong>TIME</strong></td>
+    </tr>
+    <tr>
+      <td><kbd>$table->timestamp('added_on');</kbd></td>
+      <td>Поле <strong>TIMESTAMP</strong></td>
+    </tr>
+    <tr>
+      <td><kbd>$table->timestamps();</kbd></td>
+      <td>Добавляет поля <kbd>created_at</kbd> и <kbd>updated_at</kbd></td>
+    </tr>
+    <tr>
+      <td><kbd>$table->softDeletes();</kbd></td>
+      <td>Добавляет поле <kbd>deleted_at</kbd> для <a href="eloquent#мягкое">мягкого удаления</a></td>
+    </tr>
+    <tr>
+      <td><kbd>$table->text('description');</kbd></td>
+      <td>Поле <strong>TEXT</strong></td>
+    </tr>
+    <tr>
+      <td><kbd>$table->binary('data');</kbd></td>
+      <td>Поле <strong>BLOB</strong></td>
+    </tr>
+    <tr>
+      <td><kbd>$table->enum('choices', array('foo', 'bar'));</kbd></td>
+      <td>Поле <strong>ENUM</strong></td>
+    </tr>
+    <tr>
+      <td><kbd>->nullable()</kbd></td>
+      <td>Указывает, что поле может быть <strong>NULL</strong></td>
+    </tr>
+    <tr>
+      <td><kbd>->default($value)</kbd></td>
+      <td>Указывает значение по умолчанию для поля</td>
+    </tr>
+    <tr>
+      <td><kbd>->unsigned()</kbd></td>
+      <td>Обозначает беззнаковое число (<strong>UNSIGNED</strong>)</td>
+    </tr>
+  </table>
+%%
+
+Если вы используете MySQL, то метод %%after()%% позволит вам вставить поле после определённого существующего поля.
+
+**Вставка поля после существующего в MySQL:**
+%%
+  $table->string('name')->after('email');
+%%
+
+== Переименование полей ==
+Для переименования поля можно использовать метод %%renameColumn()%% объекта конструктора.
+
+%%
+  Schema::table('users', function ($table) {
+    $table->renameColumn('from', 'to');
+  });
+%%
+
+.(alert)
+**Внимание:** переименование полей типа <strong>ENUM</strong> не поддерживается.
+
+== Удаление полей ==
+**Удаление одного поля из таблицы:**
+%%
+  Schema::table('users', function ($table) {
+    $table->dropColumn('votes');
+  });
+%%
+
+**Удаление нескольких полей таблицы:**
+%%
+  Schema::table('users', function ($table) {
+    $table->dropColumn('votes', 'avatar', 'location');
+  });
+%%
+
+== Проверка на существование ==
+Вы можете легко проверить существование таблицы или поля с помощью методов %%hasTable()%% и %%hasColumn()%%.
+
+**Проверка существования таблицы:**
+%%
+  if (Schema::hasTable('users')) {
+    //
+  }
+%%
+
+**Проверка существования поля:**
+%%
+  if (Schema::hasColumn('users', 'email')) {
+    //
+  }
+%%
+
+== ((#индексы)) Добавление индексов ==
+Конструктор таблиц поддерживает несколько типов индексов. Есть два способа добавлять индексы: можно определять их на самих полях, либо добавлять отдельно.
+
+**Определение индекса на поле:**
+%%
+  $table->string('email')->unique();
+%%
+
+Вы можете добавлять их отдельно. Ниже список всех доступных типов индексов.
+%%(RawHTML)
+  <table>
+    <tr>
+      <th>Команда</th>
+      <th>Описание</th>
+    </tr>
+    <tr>
+      <td><kbd>$table->primary('id');</kbd></td>
+      <td>Добавляет первичный ключ</td>
+    </tr>
+    <tr>
+      <td><kbd>$table->primary(array('first', 'last'));</kbd></td>
+      <td>Добавляет составной первичный ключ</td>
+    </tr>
+    <tr>
+      <td><kbd>$table->unique('email');</kbd></td>
+      <td>Добавляет уникальный индекс</td>
+    </tr>
+    <tr>
+      <td><kbd>$table->index('state');</kbd></td>
+      <td>Добавляет простой индекс</td>
+    </tr>
+  </table>
+%%
+
+=== Внешние ключи ==
+Laravel поддерживает добавление внешних ключей (//foreign key constraints//) для ваших таблиц.
+
+**Добавление внешнего ключа:**
+%%
+  $table->foreign('user_id')->references('id')->on('users');
+%%
+
+В этом примере мы указываем, что поле %%(t)user_id%% связано с полем %%(t)id%% таблицы %%(t)users%%.
+
+Вы также можете задать действия, происходящие при обновлении (//on update//) и добавлении (//on delete//) записей.
+
+%%
+  $table->foreign('user_id')
+        ->references('id')->on('users')
+        ->onDelete('cascade');
+%%
+
+Для удаления внешнего ключа используется метод %%dropForeign()%%. Схема именования ключей - та же, что и ((#удаление_индексов индексов)):
+%%
+  $table->dropForeign('posts_user_id_foreign');
+%%
+
+.(alert)
+**Внимание:** при создании внешнего ключа, указывающего на автоматическое числовое поле, не забудьте сделать указывающее поле (поле внешнего ключа) типа **UNSIGNED**.
+
+=== Удаление индексов ==
+Для удаления индекса вы должны указать его имя. По умолчанию Laravel присваивает каждому индексу осознанное имя. Просто объедините имя таблицы, имена всех его полей и добавьте тип индекса. Вот несколько примеров:
+
+%%(RawHTML)
+  <table>
+    <tr>
+      <th>Команда</th>
+      <th>Описание</th>
+    </tr>
+    <tr>
+      <td><kbd>$table->dropPrimary('users_id_primary');</kbd></td>
+      <td>Удаление первичного ключа из таблицы <kbd>users</kbd></td>
+    </tr>
+    <tr>
+      <td><kbd>$table->dropUnique('users_email_password_unique');</kbd></td>
+      <td>Удаление уникального индекса на полях <kbd>email</kbd> и <kbd>password</kbd> из таблицы <kbd>users</kbd></td>
+    </tr>
+    <tr>
+      <td><kbd>$table->dropIndex('geo_state_index');</kbd></td>
+      <td>Удаление простого индекса из таблицы <kbd>geo</kbd></td>
+    </tr>
+  </table>
+%%
+
+== Системы хранения ==
+Для задания конкретной системы хранения таблицы установите свойство %%$engine%% объекта конструктора:
+%%
+  Schema::create('users', function ($table) {
+    $table->engine = 'InnoDB';
+
+    $table->string('email');
+  });
+%%
+
+.(tl_note)
+**Система хранения** - тип архитектуры таблицы. Некоторые СУБД поддерживают только свой встроенный тип (такие, как SQLite), в то время другие - например, MySQL - позволяют использовать различные системы даже внутри одной БД (наиболее используемыми являются //MyISAM//, //InnoDB// и //MEMORY//). Правда, использование таблиц различных архитектур в одном запросе заметно снижает его производительность - //прим. пер.//
