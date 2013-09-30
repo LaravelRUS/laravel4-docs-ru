@@ -22,14 +22,14 @@
 
 **Получение одной записи:**
 %%
-  $user = DB::table('users')->where('name', 'John')->first();
+  $user = DB::table('users')->where('name', 'Джон')->first();
 
   var_dump($user->name);
 %%
 
 **Получение одного поля из записей:**
 %%
-  $name = DB::table('users')->where('name', 'John')->pluck('name');
+  $name = DB::table('users')->where('name', 'Джон')->pluck('name');
 %%
 
 **Получение списка всех значений одного поля:**
@@ -67,7 +67,7 @@
 %%
   $users = DB::table('users')
                       ->where('votes', '>', 100)
-                      ->orWhere('name', 'John')
+                      ->orWhere('name', 'Джон')
                       ->get();
 %%
 
@@ -92,7 +92,7 @@
                       ->whereNull('updated_at')->get();
 %%
 
-**Использование %%(t)GROUP BY%% и %%(t)GAVING%%:**
+**Использование %%(t)ORDER BY%%, %%(t)GROUP BY%% и %%(t)HAVING%%:**
 %%
   $users = DB::table('users')
                       ->orderBy('name', 'desc')
@@ -211,7 +211,7 @@
 
 Вы также можете указать дополнительные поля для изменения:
 %%
-  DB::table('users')->increment('votes', 1, array('name' => 'John'));
+  DB::table('users')->increment('votes', 1, array('name' => 'Джон'));
 %%
 
 == Вставка (%%(t)INSERT%%) ==
@@ -281,7 +281,7 @@
 Также существует метод %%unionAll()%% с аналогичными параметрами.
 
 == Кэширование запросов ==
-Вы можете легко закэшировать запрос методом %%remember()%%:
+Вы можете легко закэшировать результат выполнения запроса методом %%remember()%%:
 %%
   $users = DB::table('users')->remember(10)->get();
 %%
