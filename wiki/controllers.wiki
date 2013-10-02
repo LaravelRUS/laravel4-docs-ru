@@ -218,6 +218,9 @@ Laravel позволяет вам легко создавать единый м�
 %%
   Route::resource('photo', 'PhotoController',
                   array('only' => array('index', 'show')));
+  // либо:
+  Route::resource('photo', 'PhotoController',
+                  array('except' => array('create', 'store', 'update', 'delete')));
 %%
 
 == Обработка неопределённых методов ==
