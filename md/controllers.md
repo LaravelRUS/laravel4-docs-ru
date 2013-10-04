@@ -165,6 +165,11 @@ DELETE    | /resource/{id}        | destroy      | resource.destroy
 
 	Route::resource('photo', 'PhotoController',
 					array('only' => array('index', 'show')));
+					
+	// либо:
+
+  	Route::resource('photo', 'PhotoController',
+                  array('except' => array('create', 'store', 'update', 'delete')));
 
 <a name="handling-missing-methods"></a>
 ## Обработка неопределённых методов

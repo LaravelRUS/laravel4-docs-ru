@@ -118,6 +118,10 @@
 
 	$name = Input::file('photo')->getClientOriginalName();
 
+**Получение расширения загруженного файла:**
+
+	$extension = Input::file('photo')->getClientOriginalExtension();
+
 **Получение размера загруженного файла:**
 
 	$size = Input::file('photo')->getSize();
