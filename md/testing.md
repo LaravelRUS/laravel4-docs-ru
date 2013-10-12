@@ -43,7 +43,7 @@ Laravel построен с учётом тестирования. Фактич�
 <a name="calling-routes-from-tests"></a>
 ## Обращение к маршрутам
 
-You may easily call one of your routes for a test using the `call` method:
+Вы можете легко вызвать любой ваш маршрут методом `call`:
 
 **Вызов routing маршрута из теста:**
 
@@ -55,7 +55,7 @@ You may easily call one of your routes for a test using the `call` method:
 
 	$this->assertEquals('Hello World', $response->getContent());
 
-You may also call a controller from a test:
+Вы также можете вызвать из теста любой контроллер.
 
 **Вызов контроллера из теста:**
 
