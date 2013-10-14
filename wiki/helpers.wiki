@@ -276,7 +276,6 @@
 
 === route ==
 Сгенерировать URL для заданного именованного ((routing маршрута)).
-Generate a URL for a given named route.
 %%
   $url = route('routeName', $params);
 %%

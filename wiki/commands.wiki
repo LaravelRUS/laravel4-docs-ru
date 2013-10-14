@@ -42,7 +42,7 @@
   array($name, $shortcut, $mode, $description, $defaultValue)
 %%
 
-%%$mode%% для ключей может быть любым из этих обзектов: %%InputOption::VALUE_REQUIRED%%, %%InputOption::VALUE_OPTIONAL%%, %%InputOption::VALUE_IS_ARRAY%%, %%InputOption::VALUE_NONE%%.
+%%$mode%% для ключей может быть любым из этих объектов: %%InputOption::VALUE_REQUIRED%%, %%InputOption::VALUE_OPTIONAL%%, %%InputOption::VALUE_IS_ARRAY%%, %%InputOption::VALUE_NONE%%.
 
 Режим %%VALUE_IS_ARRAY%% указывает, что ключ может быть передан несколько раз:
 %%(sh)
