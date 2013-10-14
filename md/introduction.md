@@ -21,13 +21,16 @@ Laravel обладает широкими возможностями, но пр�
 
 Вы также можете посмотреть [книги по Laravel](http://wiki.laravel.io/Books). Они написаны сообществом и являются хорошими помощниками в изучении Laravel 4.
 
-- [Code Bright](https://leanpub.com/codebright) - Dayle Rees
-- [Laravel Testing Decoded](https://leanpub.com/laravel-testing-decoded) - Jeffrey Way
+- [Code Bright](https://leanpub.com/codebright) by Dayle Rees
+- [Laravel Testing Decoded](https://leanpub.com/laravel-testing-decoded) by Jeffrey Way
+- [Laravel: From Apprentice To Artisan](https://leanpub.com/laravel) by Taylor Otwell
+- [Implementing Laravel](https://leanpub.com/implementinglaravel) by Chris Fidao
+- [Getting Stuff Done With Laravel 4](https://leanpub.com/gettingstuffdonelaravel) by Chuck Heintzelman
 
 <a name="development-team"></a>
 ## Команда разработчиков
 
-Laravel был создан [Taylor Otwell](https://github.com/taylorotwell), который продолжает вести его разработку по сей день. Другие известные члены сообщества: [Dayle Rees](https://github.com/daylerees), [Shawn McCool](https://github.com/ShawnMcCool), [Jeffrey Way](https://github.com/JeffreyWay), [Jason Lewis](https://github.com/jasonlewis), [Ben Corlett](https://github.com/bencorlett), [Franz Liedke](https://github.com/franzliedke), [Dries Vints](https://github.com/driesvints), [Mior Muhammed Zaki](https://github.com/crynobone), и [Phil Sturgeon](https://github.com/philsturgeon).
+Laravel был создан [Taylor Otwell](https://github.com/taylorotwell), который продолжает вести его разработку по сей день. Другие известные члены сообщества: [Dayle Rees](https://github.com/daylerees), [Shawn McCool](https://github.com/ShawnMcCool), [Jeffrey Way](https://github.com/JeffreyWay), [Jason Lewis](https://github.com/jasonlewis), [Ben Corlett](https://github.com/bencorlett), [Franz Liedke](https://github.com/franzliedke), [Dries Vints](https://github.com/driesvints), [Mior Muhammad Zaki](https://github.com/crynobone) и [Phil Sturgeon](https://github.com/philsturgeon).
 
 <a name="framework-sponsors"></a>
 ## Спонсоры Laravel
