@@ -127,7 +127,7 @@
 
 **Регистрация команды, находящейся в IoC:**
 %%
-  rtisan::resolve('binding.name');
+  Artisan::resolve('binding.name');
 %%
 
 == Вызов других команд ==
