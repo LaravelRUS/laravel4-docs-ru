@@ -166,7 +166,7 @@ Laravel содержит несколько классов %%Manager%%, кото
   }
 %%
 
-Как только вы написали расширение можно создать нового поставщика услуг %%SnappyPaginationProvider%%, который перекроет объект страничного вывода (//paginator//) в своём метода %%boot()%%:
+Как только вы написали расширение можно создать нового поставщика услуг %%SnappyPaginationProvider%%, который перекроет объект страничного вывода (//paginator//) в своём методе %%boot()%%:
 %%
   class SnappyPaginationProvider extends PaginationServiceProvider {
 
