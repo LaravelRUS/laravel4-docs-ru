@@ -6,4 +6,4 @@
 * **wiki** — [UverseWiki](http://uverse.i-forge.net/) — актуальная версия автора (@[ProgerXP](http://proger.me))
 * **md** — Markdown (по просьбе @[Butochnikov](https://github.com/Butochnikov), поддерживается им)
 
-**Вносите правка в вики-версию** — именно она отображается на laravel.ru и является актуальной.
+**Вносите правки в вики-версию** — именно она отображается на laravel.ru и является актуальной.
